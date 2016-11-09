@@ -1,2 +1,2 @@
-# test_db_generator
+# Test Database Generator
 Application for easy test databases generating
