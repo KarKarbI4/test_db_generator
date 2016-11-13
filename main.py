@@ -1,15 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import sys
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox
+# from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
 from SessionWindow import Ui_SessionWindow
 from DatabaseGenerator import DatabaseGenerator, ConnectionError
 
-class SessionManager(QtWidgets.QMainWindow):
+class SessionManager(QMainWindow):
     def __init__(self, dbgen):
         super().__init__()
         self.ui = Ui_SessionWindow()
@@ -33,9 +31,11 @@ class SessionManager(QtWidgets.QMainWindow):
         try:
             self.dbgen.connect(drivername, host, user, password, port)
         except ConnectionError:
-            self.showError()
+            self.show_error()
+        sessionManager1 = SessionManager(self.dbgen)
+        sessionManager1.show()
 
-    def showError(self):
+    def show_error(self):
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Warning)
         msg.setText("Connection error occured while trying to connect to database. Please, check your credentials again.")
@@ -43,7 +43,8 @@ class SessionManager(QtWidgets.QMainWindow):
         msg.setStandardButtons(QMessageBox.Ok)
         retval = msg.exec_()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
+    import sys
     app = QtWidgets.QApplication(sys.argv)
     dbgen = DatabaseGenerator()
     sessionManager = SessionManager(dbgen)

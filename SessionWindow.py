@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/python3
 
 # Form implementation generated from reading ui file 'Session.ui'
 #
@@ -92,6 +91,9 @@ class Ui_SessionWindow(object):
         self.buttonsHLayout.setObjectName("buttonsHLayout")
         self.connectBtn = QtWidgets.QPushButton(self.centralwidget)
         self.connectBtn.setEnabled(True)
+        self.connectBtn.setCheckable(False)
+        self.connectBtn.setAutoDefault(True)
+        self.connectBtn.setDefault(True)
         self.connectBtn.setObjectName("connectBtn")
         self.buttonsHLayout.addWidget(self.connectBtn)
         self.cancelBtn = QtWidgets.QPushButton(self.centralwidget)
@@ -103,6 +105,12 @@ class Ui_SessionWindow(object):
         self.retranslateUi(SessionWindow)
         self.cancelBtn.clicked.connect(SessionWindow.close)
         QtCore.QMetaObject.connectSlotsByName(SessionWindow)
+        SessionWindow.setTabOrder(self.driverCombo, self.hostEdit)
+        SessionWindow.setTabOrder(self.hostEdit, self.userEdit)
+        SessionWindow.setTabOrder(self.userEdit, self.passwordEdit)
+        SessionWindow.setTabOrder(self.passwordEdit, self.portSpin)
+        SessionWindow.setTabOrder(self.portSpin, self.connectBtn)
+        SessionWindow.setTabOrder(self.connectBtn, self.cancelBtn)
 
     def retranslateUi(self, SessionWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -113,6 +121,7 @@ class Ui_SessionWindow(object):
         self.passwordLabel.setText(_translate("SessionWindow", "Password:"))
         self.portLabel.setText(_translate("SessionWindow", "Port:"))
         self.connectBtn.setText(_translate("SessionWindow", "Connect"))
+        self.connectBtn.setShortcut(_translate("SessionWindow", "Return"))
         self.cancelBtn.setText(_translate("SessionWindow", "Cancel"))
 
 
