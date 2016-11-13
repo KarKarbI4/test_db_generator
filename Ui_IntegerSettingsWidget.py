@@ -1,0 +1,110 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'IntegerSettingsWidget.ui'
+#
+# Created by: PyQt5 UI code generator 5.7
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_IntegerSettingsWidget(object):
+    def setupUi(self, IntegerSettingsWidget):
+        IntegerSettingsWidget.setObjectName("IntegerSettingsWidget")
+        IntegerSettingsWidget.resize(511, 361)
+        self.verticalLayout = QtWidgets.QVBoxLayout(IntegerSettingsWidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.label = QtWidgets.QLabel(IntegerSettingsWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        self.label_3 = QtWidgets.QLabel(IntegerSettingsWidget)
+        self.label_3.setObjectName("label_3")
+        self.verticalLayout.addWidget(self.label_3)
+        self.label_2 = QtWidgets.QLabel(IntegerSettingsWidget)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
+        self.checkBox = QtWidgets.QCheckBox(IntegerSettingsWidget)
+        self.checkBox.setObjectName("checkBox")
+        self.verticalLayout.addWidget(self.checkBox)
+        self.groupBox = QtWidgets.QGroupBox(IntegerSettingsWidget)
+        self.groupBox.setFlat(False)
+        self.groupBox.setCheckable(False)
+        self.groupBox.setObjectName("groupBox")
+        self.formLayout = QtWidgets.QFormLayout(self.groupBox)
+        self.formLayout.setObjectName("formLayout")
+        self.label_4 = QtWidgets.QLabel(self.groupBox)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.spinBox = QtWidgets.QSpinBox(self.groupBox)
+        self.spinBox.setObjectName("spinBox")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.spinBox)
+        self.label_5 = QtWidgets.QLabel(self.groupBox)
+        self.label_5.setObjectName("label_5")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_5)
+        self.spinBox_2 = QtWidgets.QSpinBox(self.groupBox)
+        self.spinBox_2.setObjectName("spinBox_2")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.spinBox_2)
+        self.groupBox_2 = QtWidgets.QGroupBox(self.groupBox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
+        self.groupBox_2.setSizePolicy(sizePolicy)
+        self.groupBox_2.setCheckable(True)
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.formLayout_2 = QtWidgets.QFormLayout(self.groupBox_2)
+        self.formLayout_2.setObjectName("formLayout_2")
+        self.label_6 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_6.setObjectName("label_6")
+        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_6)
+        self.spinBox_3 = QtWidgets.QSpinBox(self.groupBox_2)
+        self.spinBox_3.setObjectName("spinBox_3")
+        self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.spinBox_3)
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.SpanningRole, self.groupBox_2)
+        self.groupBox_3 = QtWidgets.QGroupBox(self.groupBox)
+        self.groupBox_3.setCheckable(True)
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.formLayout_3 = QtWidgets.QFormLayout(self.groupBox_3)
+        self.formLayout_3.setObjectName("formLayout_3")
+        self.label_7 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_7.setObjectName("label_7")
+        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_7)
+        self.comboBox = QtWidgets.QComboBox(self.groupBox_3)
+        self.comboBox.setObjectName("comboBox")
+        self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.comboBox)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.SpanningRole, self.groupBox_3)
+        self.verticalLayout.addWidget(self.groupBox)
+
+        self.retranslateUi(IntegerSettingsWidget)
+        QtCore.QMetaObject.connectSlotsByName(IntegerSettingsWidget)
+
+    def retranslateUi(self, IntegerSettingsWidget):
+        _translate = QtCore.QCoreApplication.translate
+        IntegerSettingsWidget.setWindowTitle(_translate("IntegerSettingsWidget", "IntegerSettingsWidget"))
+        self.label.setText(_translate("IntegerSettingsWidget", "ColumnTitle"))
+        self.label_3.setText(_translate("IntegerSettingsWidget", "int(11)"))
+        self.label_2.setText(_translate("IntegerSettingsWidget", "Type"))
+        self.checkBox.setText(_translate("IntegerSettingsWidget", "Generate"))
+        self.groupBox.setTitle(_translate("IntegerSettingsWidget", "Generate settings"))
+        self.label_4.setText(_translate("IntegerSettingsWidget", "Min value: "))
+        self.label_5.setText(_translate("IntegerSettingsWidget", "Max value:"))
+        self.groupBox_2.setTitle(_translate("IntegerSettingsWidget", "Sequentialy"))
+        self.label_6.setText(_translate("IntegerSettingsWidget", "Step:"))
+        self.groupBox_3.setTitle(_translate("IntegerSettingsWidget", "Randomly"))
+        self.label_7.setText(_translate("IntegerSettingsWidget", "Distribution:"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    IntegerSettingsWidget = QtWidgets.QWidget()
+    ui = Ui_IntegerSettingsWidget()
+    ui.setupUi(IntegerSettingsWidget)
+    IntegerSettingsWidget.show()
+    sys.exit(app.exec_())
+

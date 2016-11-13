@@ -1,74 +1,101 @@
-# -*- coding: utf-8 -*-
+from PyQt5.QtWidgets import QMainWindow, QTreeWidgetItem
 
-# Form implementation generated from reading ui file 'GeneratorWindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.7
-#
-# WARNING! All changes made in this file will be lost!
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(742, 561)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.treeView = QtWidgets.QTreeView(self.centralwidget)
-        self.treeView.setGeometry(QtCore.QRect(10, 10, 251, 501))
-        self.treeView.setObjectName("treeView")
-        self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(270, 10, 471, 501))
-        self.tabWidget.setTabPosition(QtWidgets.QTabWidget.North)
-        self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
-        self.tabWidget.setDocumentMode(True)
-        self.tabWidget.setTabsClosable(True)
-        self.tabWidget.setMovable(True)
-        self.tabWidget.setTabBarAutoHide(False)
-        self.tabWidget.setObjectName("tabWidget")
-        self.tab = QtWidgets.QWidget()
-        self.tab.setObjectName("tab")
-        self.tabWidget.addTab(self.tab, "")
-        self.tab_2 = QtWidgets.QWidget()
-        self.tab_2.setObjectName("tab_2")
-        self.tabWidget.addTab(self.tab_2, "")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 742, 25))
-        self.menubar.setObjectName("menubar")
-        self.menuFile = QtWidgets.QMenu(self.menubar)
-        self.menuFile.setObjectName("menuFile")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.actionClose = QtWidgets.QAction(MainWindow)
-        self.actionClose.setObjectName("actionClose")
-        self.actionClose_2 = QtWidgets.QAction(MainWindow)
-        self.actionClose_2.setObjectName("actionClose_2")
-        self.menuFile.addAction(self.actionClose_2)
-        self.menubar.addAction(self.menuFile.menuAction())
-
-        self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
-        self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.actionClose.setText(_translate("MainWindow", "Close"))
-        self.actionClose_2.setText(_translate("MainWindow", "Close"))
+from Ui_GeneratorWindow import Ui_GeneratorWindow
+from SessionWindow import SessionWindow
+from DatabaseWidget import DatabaseWidget
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+class SchemaTreeItem(QTreeWidgetItem):
 
+    def __init__(self, text, parent=None):
+        super().__init__(parent)
+        self.setData(0, 0, text)
+
+    isDatabase = lambda self: False
+    isTable = lambda self: False
+    isColumn = lambda self: False
+
+    def text(self):
+        return super().text(0)
+
+
+class SchemaTreeDatabase(SchemaTreeItem):
+
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.widget = DatabaseWidget
+
+    isDatabase = lambda self: True
+
+
+class SchemaTreeTable(SchemaTreeItem):
+
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    isTable = lambda self: True
+
+
+class SchemaTreeColumn(SchemaTreeItem):
+
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    isColumn = lambda self: True
+
+
+class GeneratorWindow(QMainWindow):
+
+    def __init__(self, dbgen, parent=None):
+        super().__init__()
+        self.ui = Ui_GeneratorWindow()
+        self.ui.setupUi(self)
+        self.dbgen = dbgen
+        self.session_manager = SessionWindow(self.dbgen, parent=self)
+        self.setup()
+
+    def setup(self):
+        self.session_manager.connected.connect(self.session_manager_connected)
+        self.ui.schemaTreeWidget.itemDoubleClicked.connect(self.item_selected)
+        self.ui.tabWidget.tabCloseRequested.connect(self.tab_close_request)
+        self.open_session_manager()
+
+    def tab_close_request(self, tab_index):
+        self.ui.tabWidget.removeTab(tab_index)
+
+    def session_manager_connected(self):
+        self.session_manager.close()
+        self.build_schema_tree()
+
+    def open_session_manager(self):
+        self.session_manager.show()
+
+    def closeEvent(self, event):
+        if self.dbgen:
+            self.dbgen.close()
+        event.accept()
+
+    def item_selected(self, item, column_no):
+        print('Item: {0}, Column no: {1}'.format(item, column_no))
+        print('Item isDatabase: {0}\nItem isTable: {1}\nItem isColumn: {2}'.format(
+            item.isDatabase(), item.isTable(), item.isColumn()))
+        if item.isDatabase():
+            self.ui.tabWidget.addTab(item.widget(self), item.text())
+
+    def build_schema_tree(self):
+        dbs = self.dbgen.list_dbs()
+        db_items = [SchemaTreeDatabase(x) for x in dbs]
+
+        for dbs_item in db_items:
+            tables = self.dbgen.list_tables(dbs_item.text())
+
+            table_items = [SchemaTreeTable(x) for x in tables]
+
+            for table_item in table_items:
+                columns = [x[0] for x in self.dbgen.list_columns(
+                    dbs_item.text(), table_item.text())]
+                column_items = [SchemaTreeColumn(x) for x in columns]
+
+                table_item.addChildren(column_items)
+            dbs_item.addChildren(table_items)
+        self.ui.schemaTreeWidget.addTopLevelItems(db_items)
