@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QMainWindow, QTreeWidgetItem
+from PyQt5.QtWidgets import QWidget
 
 from Ui_GeneratorWindow import Ui_GeneratorWindow
 from SessionWindow import SessionWindow
@@ -81,7 +82,15 @@ class GeneratorWindow(QMainWindow):
             item.isDatabase(), item.isTable(), item.isColumn()))
         if item.isDatabase():
             tables = self.dbgen.list_tables(item.text())
-            self.ui.tabWidget.addTab(item.widget(tables, parent=self), item.text())
+            self.add_tab(item.widget(tables, parent=self), item.text())
+
+    def add_tab(self, tab_widget: QWidget, tab_text):
+        for indx in range(self.ui.tabWidget.count()):
+            if self.ui.tabWidget.tabText(indx) == tab_text:
+                self.ui.tabWidget.setCurrentIndex(indx)
+                return None
+        # tab_widget.setProperty('full_name', )
+        self.ui.tabWidget.addTab(tab_widget, tab_text)
 
     def build_schema_tree(self):
         dbs = self.dbgen.list_dbs()
