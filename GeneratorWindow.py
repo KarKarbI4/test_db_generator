@@ -80,7 +80,8 @@ class GeneratorWindow(QMainWindow):
         print('Item isDatabase: {0}\nItem isTable: {1}\nItem isColumn: {2}'.format(
             item.isDatabase(), item.isTable(), item.isColumn()))
         if item.isDatabase():
-            self.ui.tabWidget.addTab(item.widget(self), item.text())
+            tables = self.dbgen.list_tables(item.text())
+            self.ui.tabWidget.addTab(item.widget(tables, parent=self), item.text())
 
     def build_schema_tree(self):
         dbs = self.dbgen.list_dbs()

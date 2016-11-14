@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>527</width>
-    <height>397</height>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
       <bool>false</bool>
      </property>
      <property name="expandsOnDoubleClick">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="columnCount">
       <number>1</number>

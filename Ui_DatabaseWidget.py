@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DatabaseWidget(object):
     def setupUi(self, DatabaseWidget):
         DatabaseWidget.setObjectName("DatabaseWidget")
-        DatabaseWidget.resize(527, 397)
+        DatabaseWidget.resize(527, 350)
         self.gridLayout = QtWidgets.QGridLayout(DatabaseWidget)
         self.gridLayout.setObjectName("gridLayout")
         self.tablesTree = QtWidgets.QTreeWidget(DatabaseWidget)
@@ -19,7 +19,7 @@ class Ui_DatabaseWidget(object):
         self.tablesTree.setUniformRowHeights(False)
         self.tablesTree.setItemsExpandable(True)
         self.tablesTree.setAllColumnsShowFocus(False)
-        self.tablesTree.setExpandsOnDoubleClick(True)
+        self.tablesTree.setExpandsOnDoubleClick(False)
         self.tablesTree.setColumnCount(1)
         self.tablesTree.setObjectName("tablesTree")
         self.tablesTree.header().setVisible(True)
