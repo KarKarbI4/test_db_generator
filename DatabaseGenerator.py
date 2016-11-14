@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import pymysql
-
+from sqlalchemy import create_engine
 from Database import Database
 from Table import Table
 from Column import Column
@@ -53,6 +53,7 @@ class DatabaseGenerator:
         except self.driver.err.OperationalError:
             raise DbConnectionError
         print('Successfully connected.')
+        self.update()
 
     def update(self):
         self.dbs = OrderedDict()

@@ -23,26 +23,33 @@ class SchemaTreeItem(QTreeWidgetItem):
 
 class SchemaTreeDatabase(SchemaTreeItem):
 
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, database, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.widget = DatabaseWidget
+        self.database = database
+        for table in self.database.tables.values():
+            self.addChild(SchemaTreeTable(table, table.name))
 
     isDatabase = lambda self: True
 
 
 class SchemaTreeTable(SchemaTreeItem):
 
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, table, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.widget = TablePreviewWidget
+        self.table = table
+        for column in self.table.columns.values():
+            self.addChild(SchemaTreeColumn(column, column.name))
 
     isTable = lambda self: True
 
 
 class SchemaTreeColumn(SchemaTreeItem):
 
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, column, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.column = column
 
     isColumn = lambda self: True
 
@@ -86,7 +93,7 @@ class GeneratorWindow(QMainWindow):
             tables = self.dbgen.list_tables(item.text())
             self.add_tab(item.widget(tables, parent=self), item.text())
         if item.isTable():
-            columns = self.dbgen.list_columns()
+            self.add_tab(item.widget(item.table, parent=self), item.text())
 
     def add_tab(self, tab_widget: QWidget, tab_text):
         for indx in range(self.ui.tabWidget.count()):
@@ -97,19 +104,6 @@ class GeneratorWindow(QMainWindow):
         self.ui.tabWidget.addTab(tab_widget, tab_text)
 
     def build_schema_tree(self):
-        dbs = self.dbgen.list_dbs()
-        db_items = [SchemaTreeDatabase(x) for x in dbs]
-
-        for dbs_item in db_items:
-            tables = self.dbgen.list_tables(dbs_item.text())
-
-            table_items = [SchemaTreeTable(x) for x in tables]
-
-            for table_item in table_items:
-                columns = [x[0] for x in self.dbgen.list_columns(
-                    dbs_item.text(), table_item.text())]
-                column_items = [SchemaTreeColumn(x) for x in columns]
-
-                table_item.addChildren(column_items)
-            dbs_item.addChildren(table_items)
-        self.ui.schemaTreeWidget.addTopLevelItems(db_items)
+        dbs = self.dbgen.dbs
+        db_items = [SchemaTreeDatabase(
+            db, db.name, parent=self.ui.schemaTreeWidget) for db in dbs.values()]
