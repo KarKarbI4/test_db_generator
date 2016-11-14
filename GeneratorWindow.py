@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget
 from Ui_GeneratorWindow import Ui_GeneratorWindow
 from SessionWindow import SessionWindow
 from DatabaseWidget import DatabaseWidget
+from TablePreviewWidget import TablePreviewWidget
 
 
 class SchemaTreeItem(QTreeWidgetItem):
@@ -33,6 +34,7 @@ class SchemaTreeTable(SchemaTreeItem):
 
     def __init__(self, *args):
         super().__init__(*args)
+        self.widget = TablePreviewWidget
 
     isTable = lambda self: True
 
@@ -83,6 +85,8 @@ class GeneratorWindow(QMainWindow):
         if item.isDatabase():
             tables = self.dbgen.list_tables(item.text())
             self.add_tab(item.widget(tables, parent=self), item.text())
+        if item.isTable():
+            columns = self.dbgen.list_columns()
 
     def add_tab(self, tab_widget: QWidget, tab_text):
         for indx in range(self.ui.tabWidget.count()):

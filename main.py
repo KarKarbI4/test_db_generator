@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QApplication
 from DatabaseGenerator import DatabaseGenerator
 from GeneratorWindow import GeneratorWindow
 
+
 def main():
     import sys
     app = QApplication(sys.argv)

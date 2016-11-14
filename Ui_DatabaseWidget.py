@@ -12,8 +12,11 @@ class Ui_DatabaseWidget(object):
     def setupUi(self, DatabaseWidget):
         DatabaseWidget.setObjectName("DatabaseWidget")
         DatabaseWidget.resize(527, 350)
-        self.gridLayout = QtWidgets.QGridLayout(DatabaseWidget)
-        self.gridLayout.setObjectName("gridLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout(DatabaseWidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.tablesLabel = QtWidgets.QLabel(DatabaseWidget)
+        self.tablesLabel.setObjectName("tablesLabel")
+        self.verticalLayout.addWidget(self.tablesLabel)
         self.tablesTree = QtWidgets.QTreeWidget(DatabaseWidget)
         self.tablesTree.setRootIsDecorated(False)
         self.tablesTree.setUniformRowHeights(False)
@@ -25,7 +28,10 @@ class Ui_DatabaseWidget(object):
         self.tablesTree.header().setVisible(True)
         self.tablesTree.header().setCascadingSectionResizes(False)
         self.tablesTree.header().setHighlightSections(True)
-        self.gridLayout.addWidget(self.tablesTree, 0, 0, 1, 1)
+        self.verticalLayout.addWidget(self.tablesTree)
+        self.generateBtn = QtWidgets.QPushButton(DatabaseWidget)
+        self.generateBtn.setObjectName("generateBtn")
+        self.verticalLayout.addWidget(self.generateBtn)
 
         self.retranslateUi(DatabaseWidget)
         QtCore.QMetaObject.connectSlotsByName(DatabaseWidget)
@@ -33,7 +39,9 @@ class Ui_DatabaseWidget(object):
     def retranslateUi(self, DatabaseWidget):
         _translate = QtCore.QCoreApplication.translate
         DatabaseWidget.setWindowTitle(_translate("DatabaseWidget", "Form"))
+        self.tablesLabel.setText(_translate("DatabaseWidget", "Select tables to generate:"))
         self.tablesTree.headerItem().setText(0, _translate("DatabaseWidget", "Tables"))
+        self.generateBtn.setText(_translate("DatabaseWidget", "Generate"))
 
 
 if __name__ == "__main__":

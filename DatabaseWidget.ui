@@ -6,15 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
-    <height>350</height>
+    <width>472</width>
+    <height>330</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="tablesLabel">
+     <property name="text">
+      <string>Select tables to generate:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTreeWidget" name="tablesTree">
      <property name="rootIsDecorated">
       <bool>false</bool>
@@ -48,6 +55,13 @@
        <string>Tables</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="generateBtn">
+     <property name="text">
+      <string>Generate</string>
+     </property>
     </widget>
    </item>
   </layout>

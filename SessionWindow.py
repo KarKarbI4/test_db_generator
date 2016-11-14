@@ -4,6 +4,7 @@ from PyQt5.QtCore import pyqtSignal
 from Ui_SessionWindow import Ui_SessionWindow
 from DatabaseGenerator import DatabaseGenerator, DbConnectionError
 
+
 class SessionWindow(QMainWindow):
 
     connected = pyqtSignal()
