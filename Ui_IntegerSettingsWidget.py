@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_IntegerSettingsWidget(object):
     def setupUi(self, IntegerSettingsWidget):
         IntegerSettingsWidget.setObjectName("IntegerSettingsWidget")
-        IntegerSettingsWidget.resize(511, 361)
+        IntegerSettingsWidget.resize(511, 349)
         self.verticalLayout = QtWidgets.QVBoxLayout(IntegerSettingsWidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(IntegerSettingsWidget)

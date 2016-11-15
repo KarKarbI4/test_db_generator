@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DatabaseWidget(object):
     def setupUi(self, DatabaseWidget):
         DatabaseWidget.setObjectName("DatabaseWidget")
-        DatabaseWidget.resize(527, 350)
+        DatabaseWidget.resize(472, 330)
         self.verticalLayout = QtWidgets.QVBoxLayout(DatabaseWidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tablesLabel = QtWidgets.QLabel(DatabaseWidget)

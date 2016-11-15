@@ -12,7 +12,7 @@ class Ui_GeneratorWindow(object):
     def setupUi(self, GeneratorWindow):
         GeneratorWindow.setObjectName("GeneratorWindow")
         GeneratorWindow.setEnabled(True)
-        GeneratorWindow.resize(697, 501)
+        GeneratorWindow.resize(635, 501)
         GeneratorWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         GeneratorWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         GeneratorWindow.setDockOptions(QtWidgets.QMainWindow.AllowNestedDocks|QtWidgets.QMainWindow.AllowTabbedDocks|QtWidgets.QMainWindow.AnimatedDocks)
@@ -31,7 +31,7 @@ class Ui_GeneratorWindow(object):
         self.horizontalLayout.addWidget(self.tabWidget)
         GeneratorWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(GeneratorWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 697, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 635, 25))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -67,7 +67,7 @@ class Ui_GeneratorWindow(object):
 
     def retranslateUi(self, GeneratorWindow):
         _translate = QtCore.QCoreApplication.translate
-        GeneratorWindow.setWindowTitle(_translate("GeneratorWindow", "MainWindow"))
+        GeneratorWindow.setWindowTitle(_translate("GeneratorWindow", "Test Database Generator"))
         self.menuFile.setTitle(_translate("GeneratorWindow", "File"))
         self.treeDockWidget.setWindowTitle(_translate("GeneratorWindow", "Database Tree"))
         self.schemaTreeWidget.headerItem().setText(0, _translate("GeneratorWindow", "Schemas"))
