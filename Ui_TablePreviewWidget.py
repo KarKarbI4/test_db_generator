@@ -11,10 +11,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TablePreviewWidget(object):
     def setupUi(self, TablePreviewWidget):
         TablePreviewWidget.setObjectName("TablePreviewWidget")
-        TablePreviewWidget.resize(485, 409)
+        TablePreviewWidget.resize(583, 458)
         self.gridLayout = QtWidgets.QGridLayout(TablePreviewWidget)
         self.gridLayout.setObjectName("gridLayout")
         self.tableWidget = QtWidgets.QTableWidget(TablePreviewWidget)
+        self.tableWidget.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setGridStyle(QtCore.Qt.SolidLine)
         self.tableWidget.setCornerButtonEnabled(True)
@@ -24,7 +28,9 @@ class Ui_TablePreviewWidget(object):
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget.horizontalHeader().setHighlightSections(True)
+        self.tableWidget.horizontalHeader().setStretchLastSection(False)
         self.tableWidget.verticalHeader().setVisible(False)
+        self.tableWidget.verticalHeader().setStretchLastSection(True)
         self.gridLayout.addWidget(self.tableWidget, 0, 0, 1, 1)
 
         self.retranslateUi(TablePreviewWidget)

@@ -5,11 +5,11 @@ from Ui_DatabaseWidget import Ui_DatabaseWidget
 
 class DatabaseWidget(QWidget):
 
-    def __init__(self, tables, parent=None):
+    def __init__(self, database, parent=None):
         super().__init__()
         self.ui = Ui_DatabaseWidget()
         self.ui.setupUi(self)
-        self.tables = tables
+        self.database = database
         self.setup()
 
     def setup(self):
@@ -17,7 +17,7 @@ class DatabaseWidget(QWidget):
         parent.setText(0, 'All')
         parent.setFlags(parent.flags() | Qt.ItemIsTristate |
                         Qt.ItemIsUserCheckable)
-        for tablename in self.tables:
+        for tablename in self.database.tables:
             table_item = QTreeWidgetItem(parent)
             table_item.setFlags(table_item.flags() | Qt.ItemIsUserCheckable)
             table_item.setText(0, tablename)

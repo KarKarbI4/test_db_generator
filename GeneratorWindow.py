@@ -25,8 +25,8 @@ class SchemaTreeDatabase(SchemaTreeItem):
 
     def __init__(self, database, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.widget = DatabaseWidget
         self.database = database
+        self.widget = DatabaseWidget(self.database)
         for table in self.database.tables.values():
             self.addChild(SchemaTreeTable(table, table.name))
 
@@ -37,8 +37,8 @@ class SchemaTreeTable(SchemaTreeItem):
 
     def __init__(self, table, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.widget = TablePreviewWidget
         self.table = table
+        self.widget = TablePreviewWidget(self.table)
         for column in self.table.columns.values():
             self.addChild(SchemaTreeColumn(column, column.name))
 
@@ -89,11 +89,10 @@ class GeneratorWindow(QMainWindow):
         print('Item: {0}, Column no: {1}'.format(item, column_no))
         print('Item isDatabase: {0}\nItem isTable: {1}\nItem isColumn: {2}'.format(
             item.isDatabase(), item.isTable(), item.isColumn()))
-        if item.isDatabase():
-            tables = self.dbgen.list_tables(item.text())
-            self.add_tab(item.widget(tables, parent=self), item.text())
-        if item.isTable():
-            self.add_tab(item.widget(item.table, parent=self), item.text())
+        try:
+            self.add_tab(item.widget, item.text())
+        except AttributeError:
+            pass
 
     def add_tab(self, tab_widget: QWidget, tab_text):
         for indx in range(self.ui.tabWidget.count()):
