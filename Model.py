@@ -1,5 +1,6 @@
 from collections import OrderedDict
-from model.Connection import Connection
+
+from Connection import Connection
 
 
 class Model:

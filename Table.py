@@ -3,8 +3,6 @@ from collections import OrderedDict
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from Column import Column
-from changes_data import changes_data
-
 
 class Table(QObject):
 
@@ -29,7 +27,6 @@ class Table(QObject):
     def columns(self) -> str:
         return self._columns
 
-    @changes_data
     def add_column(self, name: str):
         self.columns[name] = Column(name, self)
         return self.column(name)

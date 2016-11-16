@@ -4,8 +4,6 @@ from PyQt5.QtCore import QObject, pyqtSignal
 
 from Column import Column
 from Table import Table
-from changes_data import changes_data
-
 
 class Database(QObject):
 

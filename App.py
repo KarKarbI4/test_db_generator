@@ -4,9 +4,10 @@
 # from PyQt5 import QApplication
 from PyQt5.QtWidgets import QApplication
 
-from model.Model import Model
-from controllers.MainController import MainController
-from views.MainView import MainView
+from Model import Model
+from MainController import MainController
+from MainView import MainView
+from SessionWindow import SessionWindow
 
 import sys
 class App(QApplication):

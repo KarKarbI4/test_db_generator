@@ -1,8 +1,6 @@
 
 import pymysql
 
-from model.DbErrors import DbError
-
 drivers = {
     'MySQL': (pymysql, 3306),
 }
@@ -19,6 +17,12 @@ class Connection():
         self._password = ''
         self.db = None
         self.cur = None
+
+    def isConnected(self):
+        return self.db is not None
+
+    def get_drivers(self):
+        return list(drivers.keys())
 
     @property
     def driver(self):
@@ -63,16 +67,3 @@ class Connection():
     @password.setter
     def password(self, password: str):
         self._password = password
-
-    def connect(self):
-        try:
-            self.db = self.driver.connect(
-                host=self.host, port=self.port, user=self.user, passwd=self.password)
-            self.cur = self.db.cursor()
-        except self.driver.err.OperationalError:
-            raise DbConnectionError
-        print('Successfully connected.')
-
-    def disconnect(self):
-        if self.db:
-            self.db.close()
