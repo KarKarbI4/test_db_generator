@@ -57,7 +57,7 @@ class SchemaTreeColumn(SchemaTreeItem):
 class GeneratorWindow(QMainWindow):
 
     def __init__(self, dbgen, parent=None):
-        super().__init__()
+        super().__init__(parent)
         self.ui = Ui_GeneratorWindow()
         self.ui.setupUi(self)
         self.dbgen = dbgen
@@ -90,6 +90,7 @@ class GeneratorWindow(QMainWindow):
         print('Item isDatabase: {0}\nItem isTable: {1}\nItem isColumn: {2}'.format(
             item.isDatabase(), item.isTable(), item.isColumn()))
         try:
+            item.widget.parent = self
             self.add_tab(item.widget, item.text())
         except AttributeError:
             pass

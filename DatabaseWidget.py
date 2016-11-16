@@ -8,11 +8,14 @@ class DatabaseWidget(QWidget):
     def __init__(self, database, parent=None):
         super().__init__()
         self.ui = Ui_DatabaseWidget()
+        self.parent = parent
         self.ui.setupUi(self)
         self.database = database
         self.setup()
 
     def setup(self):
+        self.ui.tablesTree.itemDoubleClicked.connect(self.parent.item_selected)
+
         parent = QTreeWidgetItem(self.ui.tablesTree)
         parent.setText(0, 'All')
         parent.setFlags(parent.flags() | Qt.ItemIsTristate |

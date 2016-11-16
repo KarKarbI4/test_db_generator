@@ -67,7 +67,7 @@ class DatabaseGenerator:
                 for (col_name, _type, nullable, keytype, default, extra) in columns:
                     col = table.add_column(col_name)
                     col.type = _type
-                    col.nullable = True if nullable == 'YES' else False
+                    col.nullable = nullable
                     col.keytype = keytype
                     col.default = default
                     col.extra = extra

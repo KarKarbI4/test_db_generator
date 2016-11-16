@@ -11,9 +11,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TablePreviewWidget(object):
     def setupUi(self, TablePreviewWidget):
         TablePreviewWidget.setObjectName("TablePreviewWidget")
-        TablePreviewWidget.resize(583, 458)
-        self.gridLayout = QtWidgets.QGridLayout(TablePreviewWidget)
-        self.gridLayout.setObjectName("gridLayout")
+        TablePreviewWidget.resize(587, 466)
+        self.verticalLayout = QtWidgets.QVBoxLayout(TablePreviewWidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.formLayout = QtWidgets.QFormLayout()
+        self.formLayout.setObjectName("formLayout")
+        self.label = QtWidgets.QLabel(TablePreviewWidget)
+        self.label.setObjectName("label")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.spinBox = QtWidgets.QSpinBox(TablePreviewWidget)
+        self.spinBox.setMaximum(1000)
+        self.spinBox.setProperty("value", 100)
+        self.spinBox.setDisplayIntegerBase(10)
+        self.spinBox.setObjectName("spinBox")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.spinBox)
+        self.verticalLayout.addLayout(self.formLayout)
         self.tableWidget = QtWidgets.QTableWidget(TablePreviewWidget)
         self.tableWidget.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.tableWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
@@ -26,12 +38,13 @@ class Ui_TablePreviewWidget(object):
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
         self.tableWidget.horizontalHeader().setVisible(True)
-        self.tableWidget.horizontalHeader().setCascadingSectionResizes(False)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setHighlightSections(True)
-        self.tableWidget.horizontalHeader().setStretchLastSection(False)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setStretchLastSection(True)
-        self.gridLayout.addWidget(self.tableWidget, 0, 0, 1, 1)
+        self.tableWidget.verticalHeader().setCascadingSectionResizes(True)
+        self.tableWidget.verticalHeader().setStretchLastSection(False)
+        self.verticalLayout.addWidget(self.tableWidget)
 
         self.retranslateUi(TablePreviewWidget)
         QtCore.QMetaObject.connectSlotsByName(TablePreviewWidget)
@@ -39,6 +52,7 @@ class Ui_TablePreviewWidget(object):
     def retranslateUi(self, TablePreviewWidget):
         _translate = QtCore.QCoreApplication.translate
         TablePreviewWidget.setWindowTitle(_translate("TablePreviewWidget", "TablePreview"))
+        self.label.setText(_translate("TablePreviewWidget", "Test rows numbers:"))
 
 
 if __name__ == "__main__":

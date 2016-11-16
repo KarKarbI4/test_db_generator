@@ -17,7 +17,6 @@ class TablePreviewWidget(QWidget):
         self.ui.tableWidget.setColumnCount(6)
         self.ui.tableWidget.setRowCount(len(self.table.columns))
         self.ui.tableWidget.setHorizontalHeaderLabels(['Field', 'Type', 'Null', 'Key', 'Default', 'Extra'])
-
         for indx, col in enumerate(self.table.columns.values()):
             self.ui.tableWidget.setItem(indx, 0, QTableWidgetItem(col.name))
             self.ui.tableWidget.setItem(indx, 1, QTableWidgetItem(col.type))

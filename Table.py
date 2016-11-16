@@ -1,14 +1,21 @@
 from collections import OrderedDict
 
+from PyQt5.QtCore import QObject, pyqtSignal
+
 from Column import Column
+from changes_data import changes_data
 
 
-class Table:
+class Table(QObject):
+
+    dataChanged = pyqtSignal()
 
     def __init__(self, name: str, db):
+        super().__init__()
         self._name = name
         self._db = db
         self._columns = OrderedDict()
+        self.generate_size = 100
 
     @property
     def name(self) -> str:
@@ -22,6 +29,7 @@ class Table:
     def columns(self) -> str:
         return self._columns
 
+    @changes_data
     def add_column(self, name: str):
         self.columns[name] = Column(name, self)
         return self.column(name)
