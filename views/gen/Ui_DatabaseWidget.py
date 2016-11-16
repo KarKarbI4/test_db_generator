@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'DatabaseWidget.ui'
+# Form implementation generated from reading ui file 'ui/DatabaseWidget.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DatabaseWidget(object):
     def setupUi(self, DatabaseWidget):
         DatabaseWidget.setObjectName("DatabaseWidget")
-        DatabaseWidget.resize(472, 330)
+        DatabaseWidget.resize(470, 330)
         self.verticalLayout = QtWidgets.QVBoxLayout(DatabaseWidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.tablesLabel = QtWidgets.QLabel(DatabaseWidget)
@@ -38,7 +38,7 @@ class Ui_DatabaseWidget(object):
 
     def retranslateUi(self, DatabaseWidget):
         _translate = QtCore.QCoreApplication.translate
-        DatabaseWidget.setWindowTitle(_translate("DatabaseWidget", "Form"))
+        DatabaseWidget.setWindowTitle(_translate("DatabaseWidget", "DatabaseWidget"))
         self.tablesLabel.setText(_translate("DatabaseWidget", "Select tables to generate:"))
         self.tablesTree.headerItem().setText(0, _translate("DatabaseWidget", "Tables"))
         self.generateBtn.setText(_translate("DatabaseWidget", "Generate"))

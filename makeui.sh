@@ -1,6 +1,10 @@
 #!/bin/bash
-for UIFILE in *.ui
+UIDIR=ui
+GENDIR=views/gen
+
+for UIFILE in ${UIDIR}/*.ui
 do
     FILENAME=$(basename ${UIFILE} .ui)
-    pyuic5 -x ${UIFILE} -o Ui_${FILENAME}.py
+    GENFILE=${GENDIR}/Ui_${FILENAME}.py
+    pyuic5 -x ${UIFILE} -o ${GENFILE}
 done

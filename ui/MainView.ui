@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>GeneratorWindow</class>
- <widget class="QMainWindow" name="GeneratorWindow">
+ <class>MainView</class>
+ <widget class="QMainWindow" name="MainView">
   <property name="enabled">
    <bool>true</bool>
   </property>

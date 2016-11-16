@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'TablePreviewWidget.ui'
+# Form implementation generated from reading ui file 'ui/TablePreviewWidget.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -11,20 +11,20 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TablePreviewWidget(object):
     def setupUi(self, TablePreviewWidget):
         TablePreviewWidget.setObjectName("TablePreviewWidget")
-        TablePreviewWidget.resize(587, 466)
+        TablePreviewWidget.resize(556, 442)
         self.verticalLayout = QtWidgets.QVBoxLayout(TablePreviewWidget)
         self.verticalLayout.setObjectName("verticalLayout")
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
-        self.label = QtWidgets.QLabel(TablePreviewWidget)
-        self.label.setObjectName("label")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label)
-        self.spinBox = QtWidgets.QSpinBox(TablePreviewWidget)
-        self.spinBox.setMaximum(1000)
-        self.spinBox.setProperty("value", 100)
-        self.spinBox.setDisplayIntegerBase(10)
-        self.spinBox.setObjectName("spinBox")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.spinBox)
+        self.rowNumLabel = QtWidgets.QLabel(TablePreviewWidget)
+        self.rowNumLabel.setObjectName("rowNumLabel")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.rowNumLabel)
+        self.rowNumSpin = QtWidgets.QSpinBox(TablePreviewWidget)
+        self.rowNumSpin.setMaximum(1000)
+        self.rowNumSpin.setProperty("value", 100)
+        self.rowNumSpin.setDisplayIntegerBase(10)
+        self.rowNumSpin.setObjectName("rowNumSpin")
+        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.rowNumSpin)
         self.verticalLayout.addLayout(self.formLayout)
         self.tableWidget = QtWidgets.QTableWidget(TablePreviewWidget)
         self.tableWidget.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -52,7 +52,7 @@ class Ui_TablePreviewWidget(object):
     def retranslateUi(self, TablePreviewWidget):
         _translate = QtCore.QCoreApplication.translate
         TablePreviewWidget.setWindowTitle(_translate("TablePreviewWidget", "TablePreview"))
-        self.label.setText(_translate("TablePreviewWidget", "Test rows numbers:"))
+        self.rowNumLabel.setText(_translate("TablePreviewWidget", "Test rows numbers:"))
 
 
 if __name__ == "__main__":

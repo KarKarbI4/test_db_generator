@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
-    <height>466</height>
+    <width>556</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,14 +17,14 @@
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="rowNumLabel">
        <property name="text">
         <string>Test rows numbers:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QSpinBox" name="spinBox">
+      <widget class="QSpinBox" name="rowNumSpin">
        <property name="maximum">
         <number>1000</number>
        </property>
