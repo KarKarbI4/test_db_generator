@@ -52,7 +52,7 @@ class Ui_TablePreviewWidget(object):
     def retranslateUi(self, TablePreviewWidget):
         _translate = QtCore.QCoreApplication.translate
         TablePreviewWidget.setWindowTitle(_translate("TablePreviewWidget", "TablePreview"))
-        self.rowNumLabel.setText(_translate("TablePreviewWidget", "Test rows numbers:"))
+        self.rowNumLabel.setText(_translate("TablePreviewWidget", "Test rows number:"))
 
 
 if __name__ == "__main__":
