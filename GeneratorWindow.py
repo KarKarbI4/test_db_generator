@@ -8,7 +8,7 @@ from TablePreviewWidget import TablePreviewWidget
 
 
 class SchemaTreeItem(QTreeWidgetItem):
-
+    
     def __init__(self, text, parent=None):
         super().__init__(parent)
         self.setData(0, 0, text)

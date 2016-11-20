@@ -1,6 +1,6 @@
 #!/bin/bash
 UIDIR=ui
-GENDIR=views/gen
+GENDIR=.
 
 for UIFILE in ${UIDIR}/*.ui
 do

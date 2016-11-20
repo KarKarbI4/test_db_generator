@@ -4,7 +4,7 @@
 # from PyQt5 import QApplication
 from PyQt5.QtWidgets import QApplication
 
-from Model import Model
+from MainModel import MainModel
 from MainController import MainController
 from MainView import MainView
 from SessionWindow import SessionWindow
@@ -13,7 +13,7 @@ import sys
 class App(QApplication):
     def __init__(self, sys_argv):
         super().__init__(sys_argv)
-        self.model = Model()
+        self.model = MainModel()
         self.main_ctrl = MainController(self.model)
         self.main_view = MainView(self.model, self.main_ctrl)
         self.main_view.show()

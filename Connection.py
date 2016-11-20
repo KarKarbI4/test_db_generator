@@ -1,14 +1,17 @@
 
 import pymysql
 
+from Model import Model
+
 drivers = {
     'MySQL': (pymysql, 3306),
 }
 
 
-class Connection():
+class Connection(Model):
 
     def __init__(self):
+        super().__init__()
         self._drivername = 'MySQL'
         self._driver = drivers[self.drivername][0]
         self._host = '127.0.0.1'

@@ -19,7 +19,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="rowNumLabel">
        <property name="text">
-        <string>Test rows numbers:</string>
+        <string>Test rows number:</string>
        </property>
       </widget>
      </item>

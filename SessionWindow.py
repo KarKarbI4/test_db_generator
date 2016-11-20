@@ -1,15 +1,20 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtCore import pyqtSignal
 
 from Ui_SessionWindow import Ui_SessionWindow
 from DbErrors import DbConnectionError
 
+
 class SessionWindow(QMainWindow):
+
+    connected = pyqtSignal()
 
     drivers = property()
 
     @drivers.setter
     def drivers(self, items):
-        self.ui.driverCombo.currentIndexChanged.disconnect(self.on_driver_changed)
+        self.ui.driverCombo.currentIndexChanged.disconnect(
+            self.on_driver_changed)
         self.ui.driverCombo.clear()
         self.ui.driverCombo.addItems(items)
         self.ui.driverCombo.currentIndexChanged.connect(self.on_driver_changed)
@@ -49,7 +54,6 @@ class SessionWindow(QMainWindow):
 
     @property
     def password(self):
-        print(self.ui.passwordEdit.text())
         return self.ui.passwordEdit.text()
 
     @password.setter
@@ -79,12 +83,12 @@ class SessionWindow(QMainWindow):
         self.ui.connectBtn.clicked.connect(self.on_connect)
 
     def upd_ui_from_model(self):
-        self.drivers = self.model.connection.get_drivers()
-        self.driver = self.model.connection.drivername
-        self.host = self.model.connection.host
-        self.port = self.model.connection.port
-        self.user = self.model.connection.user
-        self.password = self.model.connection.password
+        self.drivers = self.model.get_drivers()
+        self.driver = self.model.drivername
+        self.host = self.model.host
+        self.port = self.model.port
+        self.user = self.model.user
+        self.password = self.model.password
 
     def on_driver_changed(self, indx):
         self.controller.change_driver(self.driver)
@@ -104,6 +108,7 @@ class SessionWindow(QMainWindow):
     def on_connect(self):
         try:
             self.controller.connect()
+            self.connected.emit()
         except DbConnectionError:
             self.show_error()
 
