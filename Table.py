@@ -3,9 +3,9 @@ from collections import OrderedDict
 from Column import Column
 
 from DbErrors import DbNoConnection
+from Model import Model
 
-
-class Table():
+class Table(Model):
 
     def __init__(self, name: str, db, connection):
         super().__init__()
@@ -49,7 +49,7 @@ class Table():
         upd_cols = OrderedDict()
         for (col_name, _type, nullable, keytype, default, extra) in columns:
             if col_name in self._columns:
-                upd_cols = self._columns[col_name]
+                upd_cols = self.column(col_name)
             else:
                 upd_cols[col_name] = Column(col_name, self, self.connection)
             upd_cols[col_name].update()

@@ -2,11 +2,14 @@ from collections import OrderedDict
 
 from DbErrors import DbNoConnection
 from Model import Model
+from IntegerGenerator import IntegerGenerator
 
 class Column(Model):
 
     def __init__(self, name: str, table, connection):
+        super().__init__()
         self.connection = connection
+        self.generator = IntegerGenerator(self)
         self._name = name
         self._table = table
         self.type = None

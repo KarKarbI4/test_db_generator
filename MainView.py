@@ -1,9 +1,12 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget
 
 from DatabaseWidget import DatabaseWidget
-from TablePreviewWidget import TablePreviewWidget
+from IntegerColController import IntegerColController
+from IntegerSettingsWidget import IntegerSettingsWidget
 from SchemaTreeItems import SchemaTreeDatabase, SchemaTreeItem
 from SessionWindow import SessionWindow
+from TableController import TableController
+from TablePreviewWidget import TablePreviewWidget
 from Ui_MainView import Ui_MainView
 
 
@@ -55,8 +58,13 @@ class MainView(QMainWindow):
         self.add_tab(new_widget, db.name)
 
     def add_table_widget(self, table):
-        new_widget = TablePreviewWidget(table, self.controller)
+        new_widget = TablePreviewWidget(table, TableController(table))
         self.add_tab(new_widget, table.name)
+
+    def add_col_widget(self, column):
+        new_widget = IntegerSettingsWidget(
+            column, IntegerColController(column))
+        self.add_tab(new_widget, '{0}.{1}'.format(column.table.name, column.name))
 
     def on_db_widget_item_dclicked(self, table):
         self.add_table_widget(table)
@@ -73,3 +81,5 @@ class MainView(QMainWindow):
             self.add_db_widget(item.database)
         elif item.isTable():
             self.add_table_widget(item.table)
+        elif item.isColumn():
+            self.add_col_widget(item.column)

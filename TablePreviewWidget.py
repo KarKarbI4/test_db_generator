@@ -35,5 +35,12 @@ class TablePreviewWidget(QWidget):
         self.ui = Ui_TablePreviewWidget()
         self.ui.setupUi(self)
 
+        # connections
+        self.ui.rowNumSpin.valueChanged.connect(self.on_value_changed)
+
     def upd_ui_from_model(self):
         self.table = self.model.columns
+        self.ui.rowNumSpin.setValue(self.model.generate_size)
+
+    def on_value_changed(self, value):
+        self.controller.change_value(value)

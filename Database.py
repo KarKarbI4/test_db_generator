@@ -38,6 +38,12 @@ class Database(Model):
     def check_table(self, name: str):
         if name in self._tables.keys():
             self._tables_to_gen.add(name)
+        else:
+            raise KeyError
+
+    def uncheck_table(self, name: str):
+        if name in self._tables.keys():
+            del self._tables_to_gen[name]
 
     def update(self):
         upd_tables = OrderedDict()
