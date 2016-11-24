@@ -35,6 +35,6 @@ class MainModel(Model):
             if db_name in self._dbs:
                 upd_dbs[db_name] = self.database(db_name)
             else:
-                upd_dbs[db_name] = Database(db_name, self.connection)
+                upd_dbs[db_name] = Database(db_name, self, self.connection)
             upd_dbs[db_name].update()
         self._dbs = upd_dbs

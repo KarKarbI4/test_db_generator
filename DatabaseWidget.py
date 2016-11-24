@@ -40,6 +40,7 @@ class DatabaseWidget(QWidget):
 
         # connect
         self.ui.tablesTree.itemDoubleClicked.connect(self.on_item_dclicked)
+        self.ui.generateBtn.clicked.connect(self.on_gen_btn_clicked)
 
     def upd_ui_from_model(self):
         self.tree = self.dbmodel.tables
@@ -47,3 +48,6 @@ class DatabaseWidget(QWidget):
     def on_item_dclicked(self, item, col):
         if item.text(0) != 'All':
             self.item_dclicked.emit(self.dbmodel.table(item.text(0)))
+
+    def on_gen_btn_clicked(self):
+        self.controller.generate()

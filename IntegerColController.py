@@ -10,3 +10,12 @@ class IntegerColController:
     def rand_toggled(self, checked):
         self.model.generator.rand_toggled(checked)
         self.model.announce_update()
+
+    def change_minvalue(self, value):
+        self.model.generator.minvalue = value
+
+    def change_maxvalue(self, value):
+        self.model.generator.maxvalue = value
+
+    def change_stepvalue(self, value):
+        self.model.generator.step = value

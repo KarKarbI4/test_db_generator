@@ -113,6 +113,9 @@ class IntegerSettingsWidget(QWidget):
         # Connections
         self.ui.seqGroup.toggled.connect(self.on_seq_toggled)
         self.ui.randomGroup.toggled.connect(self.on_rand_toggled)
+        self.ui.minValueEdit.valueChanged.connect(self.on_minvalue_changed)
+        self.ui.maxValueEdit.valueChanged.connect(self.on_maxvalue_changed)
+        self.ui.stepValue.valueChanged.connect(self.on_stepvalue_changed)
 
     def upd_ui_from_model(self):
         self.colname = self.model.name
@@ -135,3 +138,14 @@ class IntegerSettingsWidget(QWidget):
 
     def on_rand_toggled(self, checked):
         self.controller.rand_toggled(checked)
+
+    def on_minvalue_changed(self, value):
+        self.controller.change_minvalue(value)
+        self.ui.maxValueEdit.minimum = value
+
+    def on_maxvalue_changed(self, value):
+        self.controller.change_maxvalue(value)
+        self.ui.minValueEdit.maximum = value
+
+    def on_stepvalue_changed(self, value):
+        self.controller.change_stepvalue(value)

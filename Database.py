@@ -1,5 +1,5 @@
 from collections import OrderedDict
-
+from typing import List
 from Column import Column
 from Table import Table
 from Connection import Connection
@@ -10,13 +10,15 @@ from DbErrors import DbNoConnection
 
 class Database(Model):
 
-    def __init__(self, name: str, connection: Connection):
+    def __init__(self, name: str, main, connection: Connection):
         super().__init__()
         self._name = name
+        self.main = main
         self.connection = connection
         self._tables = OrderedDict()
         self._tables_to_gen = set(self._tables.keys())
         self._size = len(self._tables)
+        self.test_db_name = 'test_{}'.format(self.name)
 
     @property
     def name(self):
@@ -71,3 +73,12 @@ class Database(Model):
         for table_name in self.tables.keys():
             tables += '\n\t{}'.format(self.table(table_name))
         return 'Database(name={0}, tables:{1})'.format(self.name, tables)
+
+    def create_test_db(self):
+        self.connection.cur.execute(r"CREATE DATABASE {}".format(self.test_db_name))
+
+    def generate(self):
+        self.create_test_db()
+        for table in self.tables.values():
+            table.generate()
+        self.connection.db.commit()

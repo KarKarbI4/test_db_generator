@@ -13,7 +13,7 @@ import sys
 class App(QApplication):
     def __init__(self, sys_argv):
         super().__init__(sys_argv)
-        self.model = MainModel()
+        self.model = MainModel() 
         self.main_ctrl = MainController(self.model)
         self.main_view = MainView(self.model, self.main_ctrl)
         self.main_view.show()

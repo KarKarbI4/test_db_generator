@@ -5,6 +5,7 @@ from Column import Column
 from DbErrors import DbNoConnection
 from Model import Model
 
+
 class Table(Model):
 
     def __init__(self, name: str, db, connection):
@@ -49,7 +50,7 @@ class Table(Model):
         upd_cols = OrderedDict()
         for (col_name, _type, nullable, keytype, default, extra) in columns:
             if col_name in self._columns:
-                upd_cols = self.column(col_name)
+                upd_cols[col_name] = self.column(col_name)
             else:
                 upd_cols[col_name] = Column(col_name, self, self.connection)
             upd_cols[col_name].update()
@@ -63,3 +64,34 @@ class Table(Model):
             r"SHOW COLUMNS FROM {}".format(self.name))
         data = self.connection.cur.fetchall()
         return data
+
+    def wrap(self, value):
+        if isinstance(value, str):
+            return "'{}'".format(value)
+        else:
+            return str(value)
+
+    def insert(self, vals):
+        if self.connection.db is None:
+            raise DbNoConnection
+        vals_string = ', '.join(map(self.wrap, vals))
+        self.connection.cur.execute(r"USE {}".format(self.db.test_db_name))
+        self.connection.cur.execute(
+            r"INSERT INTO {0} VALUES ({1})".format(self.name, vals_string))
+
+    def create_test_table(self):
+        if self.connection.db is None:
+            raise DbNoConnection
+        self.connection.cur.execute(r"USE {}".format(self.db.name))
+        self.connection.cur.execute(
+            r"SHOW CREATE TABLE {}".format(self.name))
+        create_query = self.connection.cur.fetchone()[1]
+        self.connection.cur.execute(r"USE {}".format(self.db.test_db_name))
+        self.connection.cur.execute(create_query)
+
+    def generate(self):
+        self.create_test_table()
+        for i in range(self.generate_size):
+            vals = (column.generator.generate()
+                    for column in self.columns.values())
+            self.insert(vals)

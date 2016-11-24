@@ -8,7 +8,7 @@ from SessionWindow import SessionWindow
 from TableController import TableController
 from TablePreviewWidget import TablePreviewWidget
 from Ui_MainView import Ui_MainView
-
+from DatabaseController import DatabaseController
 
 class MainView(QMainWindow):
 
@@ -52,7 +52,7 @@ class MainView(QMainWindow):
         self.ui.tabWidget.addTab(tab_widget, tab_text)
 
     def add_db_widget(self, db):
-        new_widget = DatabaseWidget(db, self.controller)
+        new_widget = DatabaseWidget(db, DatabaseController(db))
         new_widget.item_dclicked.connect(
             self.on_db_widget_item_dclicked)
         self.add_tab(new_widget, db.name)

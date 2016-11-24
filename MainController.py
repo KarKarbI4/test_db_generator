@@ -1,5 +1,6 @@
 from DbErrors import DbConnectionError
 
+
 class MainController():
 
     def __init__(self, model):
@@ -34,6 +35,8 @@ class MainController():
             self.model.connection.cur = self.model.connection.db.cursor()
             self.model.update()
         except self.model.connection.driver.err.OperationalError:
+            raise DbConnectionError
+        except UnicodeEncodeError:
             raise DbConnectionError
         self.model.announce_update()
         print('Successfully connected.')

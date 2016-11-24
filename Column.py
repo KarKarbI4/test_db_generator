@@ -1,15 +1,16 @@
-from collections import OrderedDict
+import string
 
 from DbErrors import DbNoConnection
-from Model import Model
 from IntegerGenerator import IntegerGenerator
+from Model import Model
+from StringGenerator import StringGenerator
+
 
 class Column(Model):
 
     def __init__(self, name: str, table, connection):
         super().__init__()
         self.connection = connection
-        self.generator = IntegerGenerator(self)
         self._name = name
         self._table = table
         self.type = None
@@ -17,6 +18,30 @@ class Column(Model):
         self.keytype = None
         self.default = None
         self.extra = ''
+        self.generator = None
+        self.init_gen()
+
+    def init_gen(self):
+        if not self.type:
+            return
+        integer_types = ('bit', 'tinyint', 'smallint',
+                         'mediumint', 'int', 'integer', 'bigint')
+        for _type in integer_types:
+            if _type in self.type.lower():
+                self.generator = IntegerGenerator(self)
+                break
+
+        string_types = ('char', 'varchar', 'tinytext', 'text',
+                        'mediumtext', 'longtext', 'binary', 'varbinary')
+
+        for _type in string_types:
+            if _type in self.type.lower():
+                self.generator = StringGenerator(self)
+                break
+
+        print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(
+            self.table.db.name, self.table.name, self.name, self.generator))
+
 
     @property
     def name(self) -> str:
@@ -40,3 +65,4 @@ class Column(Model):
         self.keytype = data[3]
         self.default = data[4]
         self.extra = data[5]
+        self.init_gen()
