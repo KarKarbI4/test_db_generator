@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>IntegerSettingsWidget</class>
- <widget class="QWidget" name="IntegerSettingsWidget">
+ <class>StringSettingsWidget</class>
+ <widget class="QWidget" name="StringSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>IntegerSettingsWidget</string>
+   <string>StringSettingsWidget</string>
   </property>
   <layout class="QVBoxLayout" name="mainLayout">
    <item>
@@ -129,41 +129,27 @@
      </property>
      <layout class="QFormLayout" name="settingsGroupLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="minValueLabel">
+       <widget class="QLabel" name="minLenLabel">
         <property name="text">
-         <string>Min value: </string>
+         <string>Min length: </string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QSpinBox" name="minValueEdit">
-        <property name="minimum">
-         <number>-10000</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
+       <widget class="QSpinBox" name="minLenSpin"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="maxValueLabel">
+       <widget class="QLabel" name="maxLenLabel">
         <property name="text">
-         <string>Max value:</string>
+         <string>Max lentgh:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QSpinBox" name="maxValueEdit">
-        <property name="minimum">
-         <number>-10000</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
+       <widget class="QSpinBox" name="maxLenSpin"/>
       </item>
       <item row="2" column="0" colspan="2">
-       <widget class="QGroupBox" name="seqGroup">
+       <widget class="QGroupBox" name="randGroup">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -171,43 +157,32 @@
          </sizepolicy>
         </property>
         <property name="title">
-         <string>Sequentialy</string>
+         <string>Random</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
-        <layout class="QFormLayout" name="seqGroupLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="stepLabel">
-           <property name="text">
-            <string>Step:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QSpinBox" name="stepValue"/>
-         </item>
-        </layout>
+        <layout class="QFormLayout" name="seqGroupLayout"/>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
-       <widget class="QGroupBox" name="randomGroup">
+       <widget class="QGroupBox" name="dictGroup">
         <property name="title">
-         <string>Randomly</string>
+         <string>Dictionary</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
         </property>
         <layout class="QFormLayout" name="randomGroupLayout">
          <item row="0" column="0">
-          <widget class="QLabel" name="distributionLabel">
+          <widget class="QLabel" name="dictLabel">
            <property name="text">
-            <string>Distribution:</string>
+            <string>Dictionary:</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="distributionCombo"/>
+          <widget class="QComboBox" name="dictCombo"/>
          </item>
         </layout>
        </widget>

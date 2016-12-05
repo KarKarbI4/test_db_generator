@@ -22,7 +22,12 @@ class IntegerGenerator:
 
     def generate_seq(self):
         while True:
-            for x in range(self.minvalue, self.maxvalue + 1, self.seq_step):
+            start = self.minvalue
+            end = self.maxvalue + 1
+            if self.seq_step < 0:
+                start = self.maxvalue
+                end = self.minvalue - 1
+            for x in range(start, end, self.seq_step):
                 yield x
 
     def init_gen(self):

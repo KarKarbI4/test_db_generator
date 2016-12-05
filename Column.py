@@ -19,6 +19,7 @@ class Column(Model):
         self.default = None
         self.extra = ''
         self.generator = None
+        self.rtype = None
         self.init_gen()
 
     def init_gen(self):
@@ -29,6 +30,7 @@ class Column(Model):
         for _type in integer_types:
             if _type in self.type.lower():
                 self.generator = IntegerGenerator(self)
+                self.rtype = 'int'
                 break
 
         string_types = ('char', 'varchar', 'tinytext', 'text',
@@ -37,6 +39,7 @@ class Column(Model):
         for _type in string_types:
             if _type in self.type.lower():
                 self.generator = StringGenerator(self)
+                self.rtype = 'string'
                 break
 
         print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(

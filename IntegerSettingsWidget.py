@@ -86,6 +86,7 @@ class IntegerSettingsWidget(QWidget):
 
     @minvalue.setter
     def minvalue(self, value):
+        self.ui.maxValueEdit.minimum = value
         self.ui.minValueEdit.setValue(value)
 
     @property
@@ -94,6 +95,7 @@ class IntegerSettingsWidget(QWidget):
 
     @maxvalue.setter
     def maxvalue(self, value):
+        self.ui.minValueEdit.maximum = value
         self.ui.maxValueEdit.setValue(value)
 
     def __init__(self, model, controller):

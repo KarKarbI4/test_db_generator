@@ -18,4 +18,4 @@ class IntegerColController:
         self.model.generator.maxvalue = value
 
     def change_stepvalue(self, value):
-        self.model.generator.step = value
+        self.model.generator.seq_step = value

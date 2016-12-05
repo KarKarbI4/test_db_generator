@@ -1,14 +1,17 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget
 
+from DatabaseController import DatabaseController
 from DatabaseWidget import DatabaseWidget
 from IntegerColController import IntegerColController
 from IntegerSettingsWidget import IntegerSettingsWidget
 from SchemaTreeItems import SchemaTreeDatabase, SchemaTreeItem
 from SessionWindow import SessionWindow
+from StringColController import StringColController
+from StringSettingsWidget import StringSettingsWidget
 from TableController import TableController
 from TablePreviewWidget import TablePreviewWidget
 from Ui_MainView import Ui_MainView
-from DatabaseController import DatabaseController
+
 
 class MainView(QMainWindow):
 
@@ -62,9 +65,18 @@ class MainView(QMainWindow):
         self.add_tab(new_widget, table.name)
 
     def add_col_widget(self, column):
-        new_widget = IntegerSettingsWidget(
-            column, IntegerColController(column))
-        self.add_tab(new_widget, '{0}.{1}'.format(column.table.name, column.name))
+        widget_type = None
+        controller_type = None
+        if column.rtype == 'int':
+            widget_type = IntegerSettingsWidget
+            controller_type = IntegerColController
+        elif column.rtype == 'string':
+            widget_type = StringSettingsWidget
+            controller_type = StringColController
+        new_widget = widget_type(
+            column, controller_type(column))
+        self.add_tab(new_widget, '{0}.{1}'.format(
+            column.table.name, column.name))
 
     def on_db_widget_item_dclicked(self, table):
         self.add_table_widget(table)

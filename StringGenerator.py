@@ -9,6 +9,7 @@ class StringGenerator:
         self.maxlen = 11
         self.dict = False
         self.rand = True
+        self.dictionary = 'Names'
 
     def dict_toggled(self, checked):
         self.dict = checked
