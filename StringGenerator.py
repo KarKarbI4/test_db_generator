@@ -26,6 +26,9 @@ class StringGenerator:
     def generate(self):
         if self.rand:
             return self.generate_random()
+        elif self.dict:
+            print('String dictionary generation not implemented yet')
+            return 0
 
 if __name__ == '__main__':
     sg = StringGenerator(None)

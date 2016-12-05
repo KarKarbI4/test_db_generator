@@ -13,6 +13,10 @@ class StringColController:
 
     def change_minlen(self, value):
         self.model.generator.minlen = value
+        self.model.announce_update()
+
 
     def change_maxlen(self, value):
         self.model.generator.maxlen = value
+        self.model.announce_update()
+
