@@ -38,6 +38,9 @@ class IntegerGenerator:
             if not self.gen_seq:
                 self.gen_seq = self.generate_seq()
             return next(self.gen_seq)
+        elif self.rand:
+            print('Random integer generation not implemented yet')
+            return 0
 
 if __name__ == '__main__':
     ig = IntegerGenerator(None)
