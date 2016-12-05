@@ -17,7 +17,7 @@ class StringGenerator:
 
     def rand_toggled(self, checked):
         self.rand = checked
-        self.seq = not self.rand
+        self.dict = not self.rand
 
     def generate_random(self):
         l = random.SystemRandom().randint(self.minlen, self.maxlen)
