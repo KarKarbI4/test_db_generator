@@ -60,8 +60,9 @@ class Column(Model):
     def update(self):
         if self.connection.db is None:
             raise DbNoConnection
-        self.connection.cur.execute(
-            r"SHOW COLUMNS FROM {0} FROM {1} WHERE Field='{2}'".format(self.table.name, self.table.db.name, self.name))
+        query = r"SHOW COLUMNS FROM `{0}` FROM `{1}` WHERE Field='{2}'".format(self.table.name, self.table.db.name, self.name)
+        print("Column: {0}. Query: {1}".format(self.name, query))
+        self.connection.cur.execute(query)
         data = self.connection.cur.fetchone()
         self.type = data[1]
         self.nullable = data[2]

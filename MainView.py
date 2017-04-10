@@ -10,6 +10,7 @@ from StringColController import StringColController
 from StringSettingsWidget import StringSettingsWidget
 from TableController import TableController
 from TablePreviewWidget import TablePreviewWidget
+from TableContentViewWidget import TableContentViewWidget
 from Ui_MainView import Ui_MainView
 
 
@@ -61,8 +62,10 @@ class MainView(QMainWindow):
         self.add_tab(new_widget, db.name)
 
     def add_table_widget(self, table):
-        new_widget = TablePreviewWidget(table, TableController(table))
-        self.add_tab(new_widget, table.name)
+        preview_widget = TablePreviewWidget(table, TableController(table))
+        content_widget = TableContentViewWidget(table, TableController(table))
+        self.add_tab(preview_widget, table.name)
+        self.add_tab(content_widget, "{} content".format(table.name))
 
     def add_col_widget(self, column):
         widget_type = None

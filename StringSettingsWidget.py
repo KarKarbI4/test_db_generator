@@ -6,43 +6,36 @@ from Ui_StringSettingsWidget import Ui_StringSettingsWidget
 class StringSettingsWidget(QWidget):
 
     colname = property()
-
     @colname.setter
     def colname(self, name):
         self.ui.columnNameValueLabel.setText(name)
 
     table = property()
-
     @table.setter
     def table(self, table):
         self.ui.tableValueLabel.setText(table)
 
     coltype = property()
-
     @coltype.setter
     def coltype(self, coltype):
         self.ui.typeValueLabel.setText(coltype)
 
     nullable = property()
-
     @nullable.setter
     def nullable(self, nullable):
         self.ui.nullValueLabel.setText(nullable)
 
     keytype = property()
-
     @keytype.setter
     def keytype(self, keytype):
         self.ui.keyValueLabel.setText(keytype)
 
     default = property()
-
     @default.setter
     def default(self, default):
         self.ui.defaultValueLabel.setText(default)
 
     extra = property()
-
     @extra.setter
     def extra(self, extra):
         self.ui.extraValueLabel.setText(extra)
