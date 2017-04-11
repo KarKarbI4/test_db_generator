@@ -50,6 +50,7 @@ class Database(Model):
     def update(self):
         upd_tables = OrderedDict()
         table_names = self.list_tables()
+
         for table_name in table_names:
             if table_name in self._tables:
                 upd_tables[table_name] = self.table(table_name)
@@ -75,51 +76,48 @@ class Database(Model):
         return 'Database(name={0}, tables:{1})'.format(self.name, tables)
 
     def create_test_db(self):
-        self.connection.cur.execute(r"CREATE DATABASE `{}`".format(self.test_db_name))
-    
-    def make_query(self, query): 
+        self.connection.cur.execute(
+            r"CREATE DATABASE `{}`".format(self.test_db_name))
+
+    def make_query(self, query):
         if self.connection.db is None:
             raise DbNoConnection
         self.connection.cur.execute(r"USE `{}`".format(self.name))
         print("Database: {0}. Query: {1}".format(self.name, query))
         self.connection.cur.execute(query)
 
+    def make_gen_query(self, query):
+        if self.connection.db is None:
+            raise DbNoConnection
+        self.connection.cur.execute(r"USE `{}`".format(self.test_db_name))
+        print("Database: {0}. Query: {1}".format(self.test_db_name, query))
+        self.connection.cur.execute(query)
+
     def generate(self):
         self.create_test_db()
-        nulled_tables = set()
+        self.make_gen_query("SET FOREIGN_KEY_CHECKS=0;")
+        print("------------------Create tables------------------")
+        create_tables = ""
+        for table in self.tables.values():
+            create_tables += "{};\n".format(table.create_table_script())
+        print("-------------------Tables created----------------")
+        print(create_tables)
 
+        self.make_gen_query(create_tables)
+        
+        self.connection.db.commit()
+        self.make_gen_query("SET FOREIGN_KEY_CHECKS=1;")
+        self.connection.db.commit()
         # generate tables with null fkeys
         for table in self.tables.values():
             table.generate()
-        
+            self.connection.db.commit()
+        self.connection.db.commit()
         # update table with values
         for table in self.tables.values():
             if not table.fkeys:
                 continue
+            print(table.name + "FKEY")
             table.update_table_fkeys()
-
-        
-
-    # def generate(self):
-        # self.create_test_db()
-    #     generated_tables = set()
-
-    #     # generate tables without fk
-    #     for table in self.tables.values():
-    #         if table.fkeys:
-    #             continue
-    #         table.generate()
-    #         generated_tables.add(table.name)
-    #     # generate tables with fk
-    #     for table in self.tables.values():
-    #         if not table.fkeys:
-    #             continue
-    #         if table.name in generated_tables:
-    #             continue
-    #         for fkey in table.fkeys:
-    #             if fkey.target_table in generated_tables:
-    #                 table.generate()
-    #             else:
-    #                 table.generate_null()
-                    
+            self.connection.db.commit()
         self.connection.db.commit()

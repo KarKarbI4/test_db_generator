@@ -42,8 +42,8 @@ class Column(Model):
                 self.rtype = 'string'
                 break
 
-        print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(
-            self.table.db.name, self.table.name, self.name, self.generator))
+        # print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(
+        #     self.table.db.name, self.table.name, self.name, self.generator))
 
 
     @property
@@ -61,7 +61,7 @@ class Column(Model):
         if self.connection.db is None:
             raise DbNoConnection
         query = r"SHOW COLUMNS FROM `{0}` FROM `{1}` WHERE Field='{2}'".format(self.table.name, self.table.db.name, self.name)
-        print("Column: {0}. Query: {1}".format(self.name, query))
+        # print("Column: {0}. Query: {1}".format(self.name, query))
         self.connection.cur.execute(query)
         data = self.connection.cur.fetchone()
         self.type = data[1]

@@ -1,6 +1,7 @@
 import re
 import random
 from collections import OrderedDict, namedtuple
+from contextlib import closing
 
 from Column import Column
 from DbErrors import DbNoConnection
@@ -24,6 +25,7 @@ class Table(Model):
         self.pkeys = set()
         self.fkeys = set()
         self.fkey_cols = set()
+        self.cols_fkeys = dict()
 
     @property
     def name(self) -> str:
@@ -69,17 +71,30 @@ class Table(Model):
         print("Table: {0}. Query: {1}".format(self.name, query))
         self.connection.cur.execute(query)
 
+    def make_gen_query(self, query):
+        if self.connection.db is None:
+                raise DbNoConnection
+        print("Table: {0}. Query: {1}".format(self.name, query))
+        self.connection.cur.execute(r"USE `{}`".format(self.db.test_db_name))
+        self.connection.cur.execute(query)
+
     def get_count(self):
-        query = "SELECT COUNT(*) FROM {1}".format(self.name)
-        self.make_query(query)
-        return self.connection.cur.fetchone()[0]
+        query = "SELECT COUNT(*) FROM `{0}`".format(self.name)
+        print("Table: {0}. Query: {1}".format(self.name, query))
+        with closing(self.connection.db.cursor()) as cur:
+            cur.execute(r"USE `{}`".format(self.db.test_db_name))
+            cur.execute(query)
+            return cur.fetchone()[0]
 
     def get_nth_col_value(self, n, col_name):
-        query = "SELECT {0} FROM {1}".format(col_name, self.name)
-        self.make_query(query)
-        for i in range(n + 1):
-            res = self.connection.cur.fetchone()
-        return res[0]
+        query = "SELECT `{0}` FROM `{1}`".format(col_name, self.name)
+        print("Table: {0}. Query: {1}".format(self.name, query))
+        with closing(self.connection.db.cursor()) as cur:
+            cur.execute(r"USE `{}`".format(self.db.test_db_name))
+            cur.execute(query)
+            for i in range(n + 1):
+                res = cur.fetchone()
+            return res[0]
 
     def get_random_col_value(self, col_name):
         count = self.get_count()
@@ -87,13 +102,14 @@ class Table(Model):
         return self.get_nth_col_value(num, col_name)
 
     def get_col_vals(self, col_name):
-        query = "SELECT {0} FROM {1}".format(col_name, self.name)
-        self.make_query(query)
+        query = "SELECT `{0}` FROM `{1}`".format(col_name, self.name)
+        self.make_gen_query(query)
         self.connection.cur.fetchall()
 
     def get_fkey_cols(self):
         for fkey in self.fkeys:
             self.fkey_cols.add(self.columns[fkey.origin_col].name)
+            self.cols_fkeys[self.columns[fkey.origin_col].name] = fkey
 
     def get_pkeys(self):
         self.pkeys.clear()
@@ -117,7 +133,6 @@ class Table(Model):
         self.get_fkey_cols()
 
         print("Fkeys: {}".format(self.fkeys))
-
         print("Fkey cols: {}".format(self.fkey_cols))
 
     def list_columns(self):
@@ -129,39 +144,52 @@ class Table(Model):
     def wrap(self, value):
         if isinstance(value, str):
             return "'{}'".format(value)
+        elif value is None:
+            return "NULL"
         else:
             return str(value)
 
     def insert(self, vals):
         vals_string = ', '.join(map(self.wrap, vals))
-        self.make_query(
-            r"INSERT INTO `{0}` VALUES ({1})".format(self.name, vals_string))
+        if self.connection.db is None:
+            raise DbNoConnection
+        self.connection.cur.execute(r"USE `{}`".format(self.db.test_db_name))
+        query = "INSERT INTO `{0}` VALUES ({1})".format(self.name, vals_string)
+        self.connection.cur.execute(
+            "INSERT INTO `{0}` VALUES ({1})".format(self.name, vals_string))
+        print("Table: {0}. Query: {1}".format(self.name, query))
+        
 
     def update_table_fkeys(self):
         count = self.get_count()
+        print("COUNT {0}".format(count))
         query = "SELECT * FROM {}".format(self.name)
-        self.make_query(query)
-        query = "UPDATE {0} WHERE {1} SET {2};"
+        self.make_gen_query(query)
+        query = "UPDATE `{0}` SET {1} WHERE {2}"
+        upd_query_list = []
         for i in range(count):
             set_q = []
             where_q = []
             tup = self.connection.cur.fetchone()
-            for col in self.columns:
-                if col in self.fkey_cols:
-                    for fkey in self.fkeys:
-                        if col.name in fkey:
-                    self.db.tables[]
-                    set_q.append("{1} = {2}".format(col.name, ))
-            # fk_vals = dict()
-            # for fkey in self.fkeys:
-                # fk_table = self.db.tables[fkey.target_table]
-                
+            for i, col in enumerate(self.columns.values()):
+                if col.name in self.fkey_cols:
+                    fkey = self.cols_fkeys[col.name]
+                    value = self.db.tables[fkey.target_table].get_random_col_value(fkey.target_col)
+                    set_q.append("`{0}`={1}".format(col.name, self.wrap(value)))
+                elif col.name in self.pkeys:
+                    where_q.append("`{0}`={1}".format(col.name, self.wrap(tup[i])))
+            upd_query_list.append(query.format(self.name, ', '.join(set_q), ' AND '.join(where_q)))
+        for query in upd_query_list:
+            self.make_gen_query(query)
 
-    def create_test_table(self):
+    def create_table_script(self):
         self.make_query(
             r"SHOW CREATE TABLE `{}`".format(self.name))
         create_query = self.connection.cur.fetchone()[1]
-        self.make_query(create_query)
+        return create_query
+
+    def create_test_table(self):
+        self.make_gen_query(self.create_table_script)
 
     def get_fkeys(self):
         self.fkeys.clear()
@@ -172,13 +200,12 @@ class Table(Model):
             self.fkeys.add(ForeignKey(groups[0], self.name, groups[1], groups[2], groups[3]))
 
     def generate(self):
-        self.create_test_table()
         for i in range(self.generate_size):
             vals = []
             for column in self.columns.values():
                 if column.name not in self.fkey_cols:
                     vals.append(column.generator.generate())
                 else:
-                    vals.append('null')
+                    vals.append(None)
             vals = tuple(vals)
             self.insert(vals)

@@ -31,7 +31,10 @@ class MainModel(Model):
     def update(self):
         upd_dbs = OrderedDict()
         db_names = self.list_dbs()
+        blacklist = {"mysql", "sys", "performance_schema", "information_schema"}
         for db_name in db_names:
+            if db_name in blacklist:
+                continue
             if db_name in self._dbs:
                 upd_dbs[db_name] = self.database(db_name)
             else:
