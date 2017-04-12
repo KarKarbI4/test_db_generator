@@ -60,9 +60,19 @@ class StringSettingsWidget(QWidget):
     def dictionary(self):
         return self.ui.dictCombo.currentText()
 
-    @dictionary.setter
-    def dictionary(self, distr):
-        indx = self.ui.dictCombo.findText(distr)
+    # @dictionary.setter
+    # def dictionary(self, _dict):
+    #     print("_DICT: {}".format(_dict))
+    #     self.dictionary = _dict
+    #     # indx = self.ui.dictCombo.findText(_dict)
+    #     # self.ui.dictCombo.setCurrentIndex(indx)
+
+    @property
+    def dictionary_indx(self):
+        return self.ui.dictCombo.currentIndex()
+
+    @dictionary_indx.setter
+    def dictionary_indx(self, indx):
         self.ui.dictCombo.setCurrentIndex(indx)
 
     @property
@@ -83,6 +93,18 @@ class StringSettingsWidget(QWidget):
         self.ui.minLenSpin.maximum = value
         self.ui.maxLenSpin.setValue(value)
 
+    @property
+    def dict_list(self):
+        return [self.ui.dictCombo.itemText(i) for i in range(self.ui.dictCombo.count())]
+
+    @dict_list.setter
+    def dict_list(self, _dicts):
+        self.ui.dictCombo.currentIndexChanged.disconnect(self.on_dict_index_changed)
+        self.ui.dictCombo.clear()
+        self.ui.dictCombo.addItems(_dicts)
+        self.dictionary_indx = self.model.generator.dictionary_indx
+        self.ui.dictCombo.currentIndexChanged.connect(self.on_dict_index_changed)
+
     def __init__(self, model, controller):
         self.model = model
         self.controller = controller
@@ -102,6 +124,7 @@ class StringSettingsWidget(QWidget):
         self.ui.randGroup.toggled.connect(self.on_rand_toggled)
         self.ui.minLenSpin.valueChanged.connect(self.on_minlen_changed)
         self.ui.maxLenSpin.valueChanged.connect(self.on_maxlen_changed)
+        self.ui.dictCombo.currentIndexChanged.connect(self.on_dict_index_changed)
 
     def upd_ui_from_model(self):
         self.colname = self.model.name
@@ -114,7 +137,8 @@ class StringSettingsWidget(QWidget):
 
         self.rdict = self.model.generator.dict
         self.rand = self.model.generator.rand
-        self.dictionary = self.model.generator.dictionary
+        self.dict_list = self.model.generator.dict_list
+        print(self.dict_list)
         self.maxlen = self.model.generator.maxlen
         self.minlen = self.model.generator.minlen
 
@@ -131,3 +155,6 @@ class StringSettingsWidget(QWidget):
     def on_maxlen_changed(self, value):
         self.ui.minLenSpin.maximum = value
         self.controller.change_maxlen(value)
+
+    def on_dict_index_changed(self, indx):
+        self.controller.change_dict(indx)

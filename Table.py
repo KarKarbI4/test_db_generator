@@ -82,6 +82,11 @@ class Table(Model):
         query = "SELECT COUNT(*) FROM `{0}`".format(self.name)
         print("Table: {0}. Query: {1}".format(self.name, query))
         with closing(self.connection.db.cursor()) as cur:
+            cur.execute('SET NAMES utf8;')
+            cur.execute('SET CHARACTER SET utf8;')
+            cur.execute(
+                'SET character_set_connection=utf8;')
+
             cur.execute(r"USE `{}`".format(self.db.test_db_name))
             cur.execute(query)
             return cur.fetchone()[0]
@@ -90,6 +95,10 @@ class Table(Model):
         query = "SELECT `{0}` FROM `{1}`".format(col_name, self.name)
         print("Table: {0}. Query: {1}".format(self.name, query))
         with closing(self.connection.db.cursor()) as cur:
+            cur.execute('SET NAMES utf8;')
+            cur.execute('SET CHARACTER SET utf8;')
+            cur.execute(
+                'SET character_set_connection=utf8;')
             cur.execute(r"USE `{}`".format(self.db.test_db_name))
             cur.execute(query)
             for i in range(n + 1):

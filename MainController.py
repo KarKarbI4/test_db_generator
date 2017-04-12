@@ -31,7 +31,8 @@ class MainController():
     def connect(self):
         try:
             self.model.connection.db = self.model.connection.driver.connect(
-                host=self.model.connection.host, port=self.model.connection.port, user=self.model.connection.user, passwd=self.model.connection.password)
+                host=self.model.connection.host, port=self.model.connection.port, user=self.model.connection.user, passwd=self.model.connection.password, use_unicode=True, charset="utf8")
+
             self.model.connection.cur = self.model.connection.db.cursor()
             self.model.update()
         except self.model.connection.driver.err.OperationalError:
