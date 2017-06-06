@@ -4,6 +4,18 @@ from DbErrors import DbNoConnection
 from IntegerGenerator import IntegerGenerator
 from Model import Model
 from StringGenerator import StringGenerator
+from FloatGenerator import FloatGenerator
+from DateGenerator import DateGenerator
+integer_types = {'bit', 'tinyint', 'smallint', 'mediumint', 'int', 'integer', 'bigint'}
+float_types = {'float', 'double', 'decimal', 'dec', 'numeric', 'fixed', 'real', 'double_precision'}
+string_types = {'char', 'varchar', 'tinytext', 'text', 'mediumtext', 'longtext', 'binary', 'varbinary'}
+date_types = {'date'}
+types = [
+    ('int', IntegerGenerator, integer_types),
+    ('float', FloatGenerator, float_types),
+    ('string', StringGenerator, string_types),
+    ('date', DateGenerator, date_types),
+]
 
 
 class Column(Model):
@@ -25,22 +37,12 @@ class Column(Model):
     def init_gen(self):
         if not self.type:
             return
-        integer_types = ('bit', 'tinyint', 'smallint',
-                         'mediumint', 'int', 'integer', 'bigint')
-        for _type in integer_types:
-            if _type in self.type.lower():
-                self.generator = IntegerGenerator(self)
-                self.rtype = 'int'
-                break
-
-        string_types = ('char', 'varchar', 'tinytext', 'text',
-                        'mediumtext', 'longtext', 'binary', 'varbinary')
-
-        for _type in string_types:
-            if _type in self.type.lower():
-                self.generator = StringGenerator(self)
-                self.rtype = 'string'
-                break
+        for type_group in types:
+            for _type in type_group[2]:
+                if _type in self.type.lower():
+                    self.generator = type_group[1](self)
+                    self.rtype = type_group[0]
+                    return
 
         # print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(
         #     self.table.db.name, self.table.name, self.name, self.generator))

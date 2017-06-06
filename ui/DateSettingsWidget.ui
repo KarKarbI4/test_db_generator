@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DateSettingsWidget</class>
+ <widget class="QWidget" name="DateSettingsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>511</width>
+    <height>434</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>DateSettingsWidget</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout">
+   <item>
+    <layout class="QFormLayout" name="infoLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="columnNameLabel">
+       <property name="text">
+        <string>Column:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="columnNameValueLabel">
+       <property name="text">
+        <string>ColumnName</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="typeLabel">
+       <property name="text">
+        <string>Type:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="typeValueLabel">
+       <property name="text">
+        <string>types</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="nullValueLabel">
+       <property name="text">
+        <string>no</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="nullLabel">
+       <property name="text">
+        <string>Nullable:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="defaultLabel">
+       <property name="text">
+        <string>Default:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="extraLabel">
+       <property name="text">
+        <string>Extra:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="defaultValueLabel">
+       <property name="text">
+        <string>''</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLabel" name="extraValueLabel">
+       <property name="text">
+        <string>''</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="keyLabel">
+       <property name="text">
+        <string>Key:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="keyValueLabel">
+       <property name="text">
+        <string>''</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="tableLabel">
+       <property name="text">
+        <string>Table:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="tableValueLabel">
+       <property name="text">
+        <string>TableName</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="settingsGroup">
+     <property name="title">
+      <string>Generate settings</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <layout class="QFormLayout" name="settingsGroupLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="minValueLabel">
+        <property name="text">
+         <string>Min date: </string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="maxValueLabel">
+        <property name="text">
+         <string>Max date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <widget class="QGroupBox" name="seqGroup">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string>Sequentialy</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <layout class="QFormLayout" name="seqGroupLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="stepLabel">
+           <property name="text">
+            <string>Day step:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="spinBox"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QGroupBox" name="randomGroup">
+        <property name="title">
+         <string>Randomly</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <layout class="QFormLayout" name="randomGroupLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="distributionLabel">
+           <property name="text">
+            <string>Distribution:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="distributionCombo"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDateEdit" name="minValueEdit"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDateEdit" name="maxValueEdit"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

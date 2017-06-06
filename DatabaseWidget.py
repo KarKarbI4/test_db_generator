@@ -1,8 +1,7 @@
 from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
-from PyQt5.QtWidgets import QTreeWidgetItem, QWidget
-
+from PyQt5.QtWidgets import QTreeWidgetItem, QWidget, QErrorMessage, QMessageBox
 from Ui_DatabaseWidget import Ui_DatabaseWidget
-
+from traceback import format_exc
 
 class DatabaseWidget(QWidget):
 
@@ -50,4 +49,22 @@ class DatabaseWidget(QWidget):
             self.item_dclicked.emit(self.dbmodel.table(item.text(0)))
 
     def on_gen_btn_clicked(self):
-        self.controller.generate()
+        try:
+            self.controller.generate()
+        except Exception as e:
+            # print(e)
+            # error_dialog = QErrorMessage()
+            # error_dialog.setIcon(QMessageBox.Critical)
+            # error_dialog.showMessage(str(e))
+            # error_dialog.exec_()
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Critical)
+
+            msg.setText("Error occured while generating")
+            msg.setInformativeText(str(e))
+            msg.setWindowTitle("Error!")
+            msg.setDetailedText(format_exc())
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+
+

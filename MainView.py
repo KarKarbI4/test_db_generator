@@ -12,7 +12,15 @@ from TableController import TableController
 from TablePreviewWidget import TablePreviewWidget
 from TableContentViewWidget import TableContentViewWidget
 from Ui_MainView import Ui_MainView
+from FloatSettingsWidget import FloatSettingsWidget
+from DateSettingsWidget import DateSettingsWidget
 
+map_type_widget = {
+    'int': (IntegerSettingsWidget, IntegerColController),
+    'float': (FloatSettingsWidget, IntegerColController),
+    'string': (StringSettingsWidget, StringColController),
+    'date': (DateSettingsWidget, IntegerColController),
+}
 
 class MainView(QMainWindow):
 
@@ -68,14 +76,7 @@ class MainView(QMainWindow):
         self.add_tab(content_widget, "{} content".format(table.name))
 
     def add_col_widget(self, column):
-        widget_type = None
-        controller_type = None
-        if column.rtype == 'int':
-            widget_type = IntegerSettingsWidget
-            controller_type = IntegerColController
-        elif column.rtype == 'string':
-            widget_type = StringSettingsWidget
-            controller_type = StringColController
+        widget_type, controller_type = map_type_widget.get(column.rtype, (None, None))
         new_widget = widget_type(
             column, controller_type(column))
         self.add_tab(new_widget, '{0}.{1}'.format(
