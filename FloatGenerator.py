@@ -1,5 +1,6 @@
-
-class FloatGenerator:
+from Generator import RandomGeneratorMixin
+import random
+class FloatGenerator(RandomGeneratorMixin):
     distributions = ('uniform', 'normal')
 
     def __init__(self, col):
@@ -11,6 +12,23 @@ class FloatGenerator:
         self.rand = False
         self.distribution = 'uniform'
         self.gen_seq = None
+        self.gen_rand = None
+        self.clear()
+        self.unique = False
+
+    def get_allvalues(self):
+        return set()
+
+    def generate_random(self):
+        if self.distribution == 'uniform':
+            while True:
+                gen_value = random.uniform(self.minvalue, self.maxvalue)
+                if self.unique:
+                    while gen_value in self.allvalues:
+                        gen_value = random.uniform(self.minvalue, self.maxvalue)
+                    self.allvalues.append(gen_value)
+                yield gen_value
+
 
     def seq_toggled(self, checked):
         self.seq = checked
@@ -36,12 +54,14 @@ class FloatGenerator:
             if not self.gen_seq:
                 self.gen_seq = self.generate_seq()
             return next(self.gen_seq)
-        elif self.rand:
-            print('Random float generation not implemented yet')
-            return 0
+        elif bool(self.rand):
+            if not self.gen_rand:
+                self.gen_rand = self.generate_random()
+            return next(self.gen_rand)
 
 if __name__ == '__main__':
     ig = FloatGenerator(None)
+    ig.rand_toggled(True)
     gen = ig.generate()
     print(ig.generate())
     print(ig.generate())

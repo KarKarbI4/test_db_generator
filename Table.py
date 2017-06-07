@@ -218,3 +218,5 @@ class Table(Model):
                     vals.append(None)
             vals = tuple(vals)
             self.insert(vals)
+        for col in self.columns.values():
+            col.generator.clear()

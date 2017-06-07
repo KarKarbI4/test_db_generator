@@ -18,6 +18,9 @@ class StringGenerator:
         self.dict_list = []
         self.get_dicts()
 
+    def clear(self):
+        pass
+
     def get_dicts(self):
         self.dict_list = [file for file in os.listdir(
             self.dicts_path) if os.path.isfile(os.path.join(self.dicts_path, file))]

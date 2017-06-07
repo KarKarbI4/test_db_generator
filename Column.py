@@ -42,6 +42,8 @@ class Column(Model):
                 if _type in self.type.lower():
                     self.generator = type_group[1](self)
                     self.rtype = type_group[0]
+                    if self.keytype == 'PRI':
+                        self.generator.unique = True
                     return
 
         # print("Database: {0}.\n Table: {1}. \n Column: {2}. \n Generator: {3}.".format(

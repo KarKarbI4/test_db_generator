@@ -1,7 +1,12 @@
+from datetime import datetime
+
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtCore import QDate
 
 from Ui_DateSettingsWidget import Ui_DateSettingsWidget
 
+datetime_to_qdate = lambda x: QDate(x.year, x.month, x.day)
+qdate_to_datetime = lambda x: datetime(year=x.year(), month=x.month(), day=x.day())
 
 class DateSettingsWidget(QWidget):
 
@@ -87,7 +92,7 @@ class DateSettingsWidget(QWidget):
     @minvalue.setter
     def minvalue(self, value):
         self.ui.maxValueEdit.minimum = value
-        self.ui.minValueEdit.setValue(value)
+        self.ui.minValueEdit.setDate(value)
 
     @property
     def maxvalue(self):
@@ -96,7 +101,7 @@ class DateSettingsWidget(QWidget):
     @maxvalue.setter
     def maxvalue(self, value):
         self.ui.minValueEdit.maximum = value
-        self.ui.maxValueEdit.setValue(value)
+        self.ui.maxValueEdit.setDate(value)
 
     def __init__(self, model, controller):
         self.model = model
@@ -111,12 +116,14 @@ class DateSettingsWidget(QWidget):
     def build_ui(self):
         self.ui = Ui_DateSettingsWidget()
         self.ui.setupUi(self)
+        self.ui.minValueEdit.setCalendarPopup(True)
+        self.ui.maxValueEdit.setCalendarPopup(True)
 
         # Connections
         self.ui.seqGroup.toggled.connect(self.on_seq_toggled)
         self.ui.randomGroup.toggled.connect(self.on_rand_toggled)
-        self.ui.minValueEdit.valueChanged.connect(self.on_minvalue_changed)
-        self.ui.maxValueEdit.valueChanged.connect(self.on_maxvalue_changed)
+        self.ui.minValueEdit.dateChanged.connect(self.on_minvalue_changed)
+        self.ui.maxValueEdit.dateChanged.connect(self.on_maxvalue_changed)
         self.ui.stepValue.valueChanged.connect(self.on_stepvalue_changed)
 
     def upd_ui_from_model(self):
@@ -128,12 +135,14 @@ class DateSettingsWidget(QWidget):
         self.default = self.model.default
         self.extra = self.model.extra
 
+        self.ui.distributionCombo.clear()
+        self.ui.distributionCombo.addItems(self.model.generator.distributions)
         self.seq = self.model.generator.seq
         self.rand = self.model.generator.rand
         self.seq_step = self.model.generator.seq_step
         self.distribution = self.model.generator.distribution
-        self.maxvalue = self.model.generator.maxvalue
-        self.minvalue = self.model.generator.minvalue
+        self.maxvalue = datetime_to_qdate(self.model.generator.maxvalue)
+        self.minvalue = datetime_to_qdate(self.model.generator.minvalue)
 
     def on_seq_toggled(self, checked):
         self.controller.seq_toggled(checked)
@@ -142,11 +151,13 @@ class DateSettingsWidget(QWidget):
         self.controller.rand_toggled(checked)
 
     def on_minvalue_changed(self, value):
-        self.controller.change_minvalue(value)
+        new_value = qdate_to_datetime(value)
+        self.controller.change_minvalue(new_value)
         self.ui.maxValueEdit.minimum = value
 
     def on_maxvalue_changed(self, value):
-        self.controller.change_maxvalue(value)
+        new_value = qdate_to_datetime(value)
+        self.controller.change_maxvalue(new_value)
         self.ui.minValueEdit.maximum = value
 
     def on_stepvalue_changed(self, value):

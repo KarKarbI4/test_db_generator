@@ -128,6 +128,8 @@ class IntegerSettingsWidget(QWidget):
         self.default = self.model.default
         self.extra = self.model.extra
 
+        self.ui.distributionCombo.clear()
+        self.ui.distributionCombo.addItems(self.model.generator.distributions)
         self.seq = self.model.generator.seq
         self.rand = self.model.generator.rand
         self.seq_step = self.model.generator.seq_step

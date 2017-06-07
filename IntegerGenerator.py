@@ -1,5 +1,6 @@
+from Generator import RandomGeneratorMixin
 
-class IntegerGenerator:
+class IntegerGenerator(RandomGeneratorMixin):
     distributions = ('uniform', 'normal')
 
     def __init__(self, col):
@@ -11,6 +12,13 @@ class IntegerGenerator:
         self.rand = False
         self.distribution = 'uniform'
         self.gen_seq = None
+        self.gen_rand = None
+        self.unique = False
+        self.clear()
+
+    def get_allvalues(self):
+        vals = (self.maxvalue - self.minvalue)
+        return [x for x in range(vals)]
 
     def seq_toggled(self, checked):
         self.seq = checked
@@ -38,9 +46,10 @@ class IntegerGenerator:
             if not self.gen_seq:
                 self.gen_seq = self.generate_seq()
             return next(self.gen_seq)
-        elif self.rand:
-            print('Random integer generation not implemented yet')
-            return 0
+        elif bool(self.rand):
+            if not self.gen_rand:
+                self.gen_rand = self.generate_random()
+            return next(self.gen_rand)
 
 if __name__ == '__main__':
     ig = IntegerGenerator(None)
